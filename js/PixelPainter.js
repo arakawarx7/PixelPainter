@@ -13,14 +13,18 @@ function pixelPainter(width, height) {
   var swatchSize = 16;
   var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'black', 'white'];
   var currentColor ='black';
+  var mouseIsDown = false;
 
   colorDiv.style.width = 4 * swatchSize;
   colorDiv.style.height = 2 * swatchSize;
-  ppCanvas.style.width = width * pixelSize;
-  ppCanvas.style.height = height * pixelSize;
-  ppCanvas.style.position = 'absolute';
+  colorDiv.style.position = 'relative';
+  ppCanvas.style.width = (width * pixelSize) + 2;
+  ppCanvas.style.height = (height * pixelSize) + 2;
+  ppCanvas.style.position = 'relative';
+  ppCanvas.style.border = "2px solid black";
 
   module.changeColor = function(e) {
+    mouseIsDown = true;
     if(e.target.style.backgroundColor !== currentColor) {
       e.target.style.backgroundColor = currentColor;
     } else {
@@ -29,8 +33,9 @@ function pixelPainter(width, height) {
   };
 
   module.changeColorContinuous = function(e) {
-    e.target.style.backgroundColor = currentColor;
-    console.log(e);
+    if(mouseIsDown) {
+      e.target.style.backgroundColor = currentColor;
+    }
   };
 
   //now let's see if we can make a tool that continuously changes color
@@ -44,16 +49,16 @@ function pixelPainter(width, height) {
   for(var y = 0; y < height; y++) {
     for(var x = 0; x < width; x++) {
       var pixCell = document.createElement('div');
+      pixCell.className = 'pixCell';
       pixCell.style.width = pixelSize;
       pixCell.style.height = pixelSize;
       pixCell.style.border = '1px dotted black';
       pixCell.style.position = 'absolute';
-      pixCell.style.left = '' + (x * pixelSize);
-      pixCell.style.top = '' + (y * pixelSize);
+      pixCell.style.left = (x * pixelSize) + 'px';
+      pixCell.style.top = (y * pixelSize) + 'px';
       pixCell.style.backgroundColor = 'white';
       pixCell.addEventListener('mousedown', module.changeColor);
-      //look up MouseDown and look into making a custom drag handler
-      pixCell.addEventListener('dragover', module.changeColorContinuous);
+      pixCell.addEventListener('mouseover', module.changeColorContinuous);
       ppCanvas.appendChild(pixCell);
     }
   }
@@ -70,6 +75,11 @@ function pixelPainter(width, height) {
 
     colorDiv.appendChild(pixColor);
   }
+
+  //turn off continuous drawing when mouse is released
+  document.addEventListener('mouseup', function() {mouseIsDown = false;});
+  //disable drag
+  document.addEventListener('drag', function(){mouseIsDown = false;});
 
   ppDiv.appendChild(colorDiv);
   ppDiv.appendChild(ppCanvas);
