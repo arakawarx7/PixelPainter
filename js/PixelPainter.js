@@ -11,22 +11,29 @@ function pixelPainter(width, height) {
   var pixelSize = 8;
   var colorDiv = document.createElement('div');
   var swatchSize = 16;
-  var colors = ['blue','red','yellow','green','purple','orange','white','black'];
-  var currentColor ="black";
+  var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'black', 'white'];
+  var currentColor ='black';
 
   colorDiv.style.width = 4 * swatchSize;
   colorDiv.style.height = 2 * swatchSize;
   ppCanvas.style.width = width * pixelSize;
   ppCanvas.style.height = height * pixelSize;
-  ppCanvas.style.position = "absolute";
+  ppCanvas.style.position = 'absolute';
 
   module.changeColor = function(e) {
-    if(e.target.style.backgroundColor === "white") {
+    if(e.target.style.backgroundColor !== currentColor) {
       e.target.style.backgroundColor = currentColor;
     } else {
-      e.target.style.backgroundColor = "white";
+      e.target.style.backgroundColor = 'white';
     }
   };
+
+  module.changeColorContinuous = function(e) {
+    e.target.style.backgroundColor = currentColor;
+  };
+
+  //now let's see if we can make a tool that continuously changes color
+  //over different colors (i.e. rainbow lines)
 
   module.storeColor = function(e){
     currentColor = e.target.style.backgroundColor;
@@ -38,26 +45,30 @@ function pixelPainter(width, height) {
       var pixCell = document.createElement('div');
       pixCell.style.width = pixelSize;
       pixCell.style.height = pixelSize;
-      pixCell.style.border = "1px dotted black";
-      pixCell.style.position = "absolute";
-      pixCell.style.left = "" + (x * pixelSize);
-      pixCell.style.top = "" + (y * pixelSize);
-      pixCell.style.backgroundColor = "white";
+      pixCell.style.border = '1px dotted black';
+      pixCell.style.position = 'absolute';
+      pixCell.style.left = '' + (x * pixelSize);
+      pixCell.style.top = '' + (y * pixelSize);
+      pixCell.style.backgroundColor = 'white';
       pixCell.addEventListener('click', module.changeColor);
+      pixCell.addEventListener('dragover', module.changeColorContinuous);
       ppCanvas.appendChild(pixCell);
     }
   }
+
   for(var i =0; i < colors.length; i++){
     var pixColor = document.createElement('div');
-        pixColor.addEventListener('click', module.storeColor);
-        pixColor.style.backgroundColor = colors[i];
-        pixColor.style.width = swatchSize;
-        pixColor.style.height = swatchSize;
-        pixColor.style.position = "absolute";
-        pixColor.style.left =swatchSize * i;
+    pixColor.addEventListener('click', module.storeColor);
+    pixColor.style.border = '1px dotted black';
+    pixColor.style.backgroundColor = colors[i];
+    pixColor.style.width = swatchSize;
+    pixColor.style.height = swatchSize;
+    pixColor.style.position = 'absolute';
+    pixColor.style.left = swatchSize * i;
 
-        colorDiv.appendChild(pixColor);
+    colorDiv.appendChild(pixColor);
   }
+
   ppDiv.appendChild(colorDiv);
   ppDiv.appendChild(ppCanvas);
 
