@@ -30,6 +30,7 @@ function pixelPainter(width, height) {
 
   module.changeColorContinuous = function(e) {
     e.target.style.backgroundColor = currentColor;
+    console.log(e);
   };
 
   //now let's see if we can make a tool that continuously changes color
@@ -50,7 +51,8 @@ function pixelPainter(width, height) {
       pixCell.style.left = '' + (x * pixelSize);
       pixCell.style.top = '' + (y * pixelSize);
       pixCell.style.backgroundColor = 'white';
-      pixCell.addEventListener('click', module.changeColor);
+      pixCell.addEventListener('mousedown', module.changeColor);
+      //look up MouseDown and look into making a custom drag handler
       pixCell.addEventListener('dragover', module.changeColorContinuous);
       ppCanvas.appendChild(pixCell);
     }
