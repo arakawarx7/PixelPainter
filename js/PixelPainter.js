@@ -11,7 +11,8 @@ function pixelPainter(width, height) {
   var pixelSize = 8;
   var colorDiv = document.createElement('div');
   var swatchSize = 16;
-  var colors = 8;
+  var colors = ['blue','red','yellow','green','purple','orange','white','black'];
+  var currentColor ="black";
 
   colorDiv.style.width = 4 * swatchSize;
   colorDiv.style.height = 2 * swatchSize;
@@ -21,10 +22,14 @@ function pixelPainter(width, height) {
 
   module.changeColor = function(e) {
     if(e.target.style.backgroundColor === "white") {
-      e.target.style.backgroundColor = "black";
+      e.target.style.backgroundColor = currentColor;
     } else {
       e.target.style.backgroundColor = "white";
     }
+  };
+
+  module.storeColor = function(e){
+    currentColor = e.target.style.backgroundColor;
   };
 
   //do work here
@@ -42,9 +47,18 @@ function pixelPainter(width, height) {
       ppCanvas.appendChild(pixCell);
     }
   }
-  for(var i =0; i < colors; i++){
+  for(var i =0; i < colors.length; i++){
+    var pixColor = document.createElement('div');
+        pixColor.addEventListener('click', module.storeColor);
+        pixColor.style.backgroundColor = colors[i];
+        pixColor.style.width = swatchSize;
+        pixColor.style.height = swatchSize;
+        pixColor.style.position = "absolute";
+        pixColor.style.left =swatchSize * i;
 
+        colorDiv.appendChild(pixColor);
   }
+  ppDiv.appendChild(colorDiv);
   ppDiv.appendChild(ppCanvas);
 
   return module;
