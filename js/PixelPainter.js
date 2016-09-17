@@ -9,7 +9,12 @@ function pixelPainter(width, height) {
   var ppDiv = document.getElementById('pixelPainter');
   var ppCanvas = document.createElement('div');
   var pixelSize = 8;
+  var colorDiv = document.createElement('div');
+  var swatchSize = 16;
+  var colors = 8;
 
+  colorDiv.style.width = 4 * swatchSize;
+  colorDiv.style.height = 2 * swatchSize;
   ppCanvas.style.width = width * pixelSize;
   ppCanvas.style.height = height * pixelSize;
   ppCanvas.style.position = "absolute";
@@ -37,8 +42,11 @@ function pixelPainter(width, height) {
       ppCanvas.appendChild(pixCell);
     }
   }
+  for(var i =0; i < colors; i++){
 
+  }
   ppDiv.appendChild(ppCanvas);
+
   return module;
 }
 
