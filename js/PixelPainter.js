@@ -10,17 +10,51 @@ function pixelPainter(width, height) {
   var ppCanvas = document.createElement('div');
   var pixelSize = 8;
   var colorDiv = document.createElement('div');
+  var controlsDiv = document.createElement('div');
   var swatchSize = 16;
-  var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple', 'black', 'white'];
-  var currentColor ='black';
+  var colors = {
+    red: 'red',
+    orange: 'orange',
+    yellow: 'yellow',
+    green: 'mediumseagreen',
+    blue: 'royalblue',
+    purple: 'darkslateblue',
+    black: 'black',
+    white: 'white',
+    pink: 'pink',
+    peach: 'peachpuff',
+    lightyellow: 'cornsilk',
+    lightgreen: 'lightgreen',
+    lightblue: 'deepskyblue',
+    lightpurple: 'mediumpurple',
+    brown: 'saddlebrown',
+    tan: 'peru'
+  };
+  var currentColor = 'black';
+  var mouseIsDown = false;
 
-  colorDiv.style.width = 4 * swatchSize;
-  colorDiv.style.height = 2 * swatchSize;
-  ppCanvas.style.width = width * pixelSize;
-  ppCanvas.style.height = height * pixelSize;
-  ppCanvas.style.position = 'absolute';
+  ppCanvas.style.width = (width * pixelSize) + 2;
+  ppCanvas.style.height = (height * pixelSize) + 2;
+  ppCanvas.style.position = 'relative';
+  ppCanvas.style.border = "2px solid black";
+  ppCanvas.style.margin = "4px";
+
+  colorDiv.style.width = (8 * swatchSize) + (swatchSize) + 'px';
+  colorDiv.style.position = 'fixed';
+  colorDiv.style.border = "2px solid black";
+  colorDiv.style.left = (parseInt(ppCanvas.style.width) + swatchSize + pixelSize) + 'px';
+
+  controlsDiv.style.width = (8 * swatchSize) + (swatchSize) + 'px';
+  controlsDiv.style.position = 'fixed';
+  controlsDiv.style.border = "2px solid black";
+  controlsDiv.style.left = (parseInt(ppCanvas.style.width) + swatchSize + pixelSize) + 'px';
+
+  var clearButton = document.createElement('button');
+  clearButton.innerHTML = 'clear';
+  controlsDiv.appendChild(clearButton);
 
   module.changeColor = function(e) {
+    mouseIsDown = true;
     if(e.target.style.backgroundColor !== currentColor) {
       e.target.style.backgroundColor = currentColor;
     } else {
@@ -29,8 +63,9 @@ function pixelPainter(width, height) {
   };
 
   module.changeColorContinuous = function(e) {
-    e.target.style.backgroundColor = currentColor;
-    console.log(e);
+    if(mouseIsDown) {
+      e.target.style.backgroundColor = currentColor;
+    }
   };
 
   //now let's see if we can make a tool that continuously changes color
@@ -41,36 +76,52 @@ function pixelPainter(width, height) {
   };
 
   //do work here
-  for(var y = 0; y < height; y++) {
-    for(var x = 0; x < width; x++) {
-      var pixCell = document.createElement('div');
-      pixCell.style.width = pixelSize;
-      pixCell.style.height = pixelSize;
-      pixCell.style.border = '1px dotted black';
-      pixCell.style.position = 'absolute';
-      pixCell.style.left = '' + (x * pixelSize);
-      pixCell.style.top = '' + (y * pixelSize);
-      pixCell.style.backgroundColor = 'white';
-      pixCell.addEventListener('mousedown', module.changeColor);
-      //look up MouseDown and look into making a custom drag handler
-      pixCell.addEventListener('dragover', module.changeColorContinuous);
-      ppCanvas.appendChild(pixCell);
+  module.createCanvas = function() {
+    for(var y = 0; y < height; y++) {
+      for(var x = 0; x < width; x++) {
+        var pixCell = document.createElement('div');
+        pixCell.className = 'pixCell';
+        pixCell.style.width = pixelSize;
+        pixCell.style.height = pixelSize;
+        pixCell.style.border = '1px dotted black';
+        pixCell.style.position = 'absolute';
+        pixCell.style.left = (x * pixelSize) + 'px';
+        pixCell.style.top = (y * pixelSize) + 'px';
+        pixCell.style.backgroundColor = 'white';
+        pixCell.addEventListener('mousedown', module.changeColor);
+        pixCell.addEventListener('mouseover', module.changeColorContinuous);
+        pixCell.addEventListener('dragover', function(evt) {
+          mouseIsDown = true;
+          module.changeColorContinuous(evt);
+        });
+        ppCanvas.appendChild(pixCell);
+      }
     }
-  }
+  };
 
-  for(var i =0; i < colors.length; i++){
-    var pixColor = document.createElement('div');
-    pixColor.addEventListener('click', module.storeColor);
-    pixColor.style.border = '1px dotted black';
-    pixColor.style.backgroundColor = colors[i];
-    pixColor.style.width = swatchSize;
-    pixColor.style.height = swatchSize;
-    pixColor.style.position = 'absolute';
-    pixColor.style.left = swatchSize * i;
+  module.createColorSwatch = function() {
+    for(var col in colors){
+      var pixColor = document.createElement('div');
+      pixColor.className = 'colorSwatch';
+      pixColor.addEventListener('click', module.storeColor);
+      pixColor.style.border = '1px solid black';
+      pixColor.style.backgroundColor = colors[col];
+      pixColor.style.width = swatchSize + 'px';
+      pixColor.style.height = swatchSize + 'px';
+      pixColor.style.display = 'inline-block';
 
-    colorDiv.appendChild(pixColor);
-  }
+      colorDiv.appendChild(pixColor);
+    }
+  };
 
+  //turn off continuous drawing when mouse is released
+  document.addEventListener('mouseup', function() {mouseIsDown = false;});
+  //disable drag
+  document.addEventListener('drag', function(){mouseIsDown = false;});
+
+  module.createCanvas();
+  module.createColorSwatch();
+  colorDiv.appendChild(controlsDiv);
   ppDiv.appendChild(colorDiv);
   ppDiv.appendChild(ppCanvas);
 
