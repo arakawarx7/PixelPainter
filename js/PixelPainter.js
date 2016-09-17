@@ -59,6 +59,10 @@ function pixelPainter(width, height) {
       pixCell.style.backgroundColor = 'white';
       pixCell.addEventListener('mousedown', module.changeColor);
       pixCell.addEventListener('mouseover', module.changeColorContinuous);
+      pixCell.addEventListener('dragover', function(evt) {
+        mouseIsDown = true;
+        module.changeColorContinuous(evt);
+      });
       ppCanvas.appendChild(pixCell);
     }
   }
