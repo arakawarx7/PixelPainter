@@ -84,6 +84,7 @@ h1 {
   text-shadow: 0 0 2px black, 0 0 1px black;
   position: relative;
   color: white;
+  font-size: 15px;
   font-family: 'Quicksand';
   font-weight: bolder;
   border: 1px solid black;

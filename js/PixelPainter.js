@@ -25,22 +25,22 @@ function pixelPainter(width, height) {
     pencil: 'pencil'
   };
   var colors = {
-    red: 'red',
-    orange: 'orange',
-    yellow: 'yellow',
-    green: 'mediumseagreen',
-    blue: 'royalblue',
-    purple: 'darkslateblue',
-    black: 'black',
-    white: 'white',
-    pink: 'pink',
-    peach: 'peachpuff',
-    lightyellow: 'cornsilk',
-    lightgreen: 'lightgreen',
-    lightblue: 'deepskyblue',
-    lightpurple: 'mediumpurple',
-    brown: 'saddlebrown',
-    tan: 'peru'
+    red: '#FF0000',
+    orange: '#FFA500',
+    yellow: '#FFE000',
+    green: '#3CB371',
+    blue: '#4169E1',
+    purple: '#483D8B',
+    black: '#000000',
+    white: '#FFFFFF',
+    pink: '#FFC0CB',
+    peach: '#FFDAB9',
+    lightyellow: 'FFF8DC',
+    lightgreen: '#90EE90',
+    lightblue: '#00BFFF',
+    lightpurple: '#9370DB',
+    brown: '#8B4513',
+    tan: '#CD853F'
   };
 
   module.clearCanvas = function(){
@@ -67,6 +67,7 @@ function pixelPainter(width, height) {
 
   module.storeColor = function(e){
     currentColor = e.target.style.backgroundColor;
+    currentColorDisplay.innerHTML = currentColor;
     currentColorDisplay.style.backgroundColor = currentColor;
   };
 
