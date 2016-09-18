@@ -4,10 +4,6 @@
 * @param {Number} height --> Height of the canvas, in number of cells
 */
 
-window.isTouchScreenDevice = function() {
-  return (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
-};
-
 function pixelPainter(width, height) {
   var module = {};
   var ppDiv = document.getElementById('pixelPainter');
@@ -24,7 +20,6 @@ function pixelPainter(width, height) {
   var currentColor = 'black';
   var currentTool = 'pencil';
   var mouseIsDown = false;
-  var isTouch = window.isTouchScreenDevice();
 
   var tools = {
     pencil: 'pencil'
@@ -106,17 +101,17 @@ function pixelPainter(width, height) {
         pixCell.style.height = pixelSize;
         pixCell.style.left = (x * pixelSize) + 'px';
         pixCell.style.top = (y * pixelSize) + 'px';
-        if(isTouch) {
-          pixCell.addEventListener('touchstart', module.changeColor);
-          pixCell.addEventListener('touchmove', module.changeColorContinuous);
-        } else {
-          pixCell.addEventListener('mousedown', module.changeColor);
-          pixCell.addEventListener('mouseover', module.changeColorContinuous);
-          pixCell.addEventListener('dragover', function(evt) {
-            mouseIsDown = true;
-            module.changeColorContinuous(evt);
-          });
-        }
+        //add touch response
+        pixCell.addEventListener('touchstart', module.changeColor);
+        pixCell.addEventListener('touchmove', module.changeColorContinuous);
+        //add mouse response
+        pixCell.addEventListener('mousedown', module.changeColor);
+        pixCell.addEventListener('mouseover', module.changeColorContinuous);
+        pixCell.addEventListener('dragover', function(evt) {
+          mouseIsDown = true;
+          module.changeColorContinuous(evt);
+        });
+
         ppCanvas.appendChild(pixCell);
       }
     }
@@ -172,10 +167,8 @@ function pixelPainter(width, height) {
 
     //turn off continuous drawing when mouse is released
     document.addEventListener('mouseup', function() {mouseIsDown = false;});
-    if(isTouch) {
-      //same for touch
-      document.addEventListener('touchend', function() {mouseIsDown = false;});
-    }
+    //same for touch
+    document.addEventListener('touchend', function() {mouseIsDown = false;});
     //disable drag
     document.addEventListener('drag', function(){mouseIsDown = false;});
 
