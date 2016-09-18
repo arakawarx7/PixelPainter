@@ -134,7 +134,6 @@ function pixelPainter(width, height) {
   currentColorDisplay.id = 'currentColorDiv';
   currentColorDisplay.innerHTML = 'color';
   currentColorDisplay.style.backgroundColor = currentColor;
-  //currentColorDisplay.style.width = (8 * swatchSize) + (swatchSize) + 'px';
   currentColorDisplay.style.height = swatchSize + 'px';
 
   clearButton.addEventListener('click',module.clearCanvas);

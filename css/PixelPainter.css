@@ -1,11 +1,23 @@
 @import 'https://fonts.googleapis.com/css?family=Quicksand';
 
 html {
-  background-color: lightsteelblue;
+  background-color: steelblue;
 }
 
 @font-face {
   font-family: 'Quicksand', sans-serif;
+}
+
+body h1, body #pixelPainter {
+  background-color: lightsteelblue;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+#pixelPainter {
+  padding: 4px;
 }
 
 .colorSwatch {
@@ -22,8 +34,7 @@ h1 {
   font-family: 'Quicksand';
   color: #A8BCD7;
   letter-spacing: .1em;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  text-align: center;
   text-shadow: -1px -1px 1px steelblue, 1px 1px 1px white;
 }
 
@@ -48,22 +59,30 @@ h1 {
   position: fixed;
   background-color: #A8BCD7;
   box-shadow: -1px -1px 2px steelblue, 1px 1px 2px white;
+  margin-top: 4px;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 #controlsDiv {
   position: fixed;
   background-color: #A8BCD7;
   box-shadow: -1px -1px 2px steelblue, 1px 1px 2px white;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 #currentColorDiv {
   display: block;
   text-align: center;
+  text-shadow: 0 0 2px black, 0 0 1px black;
   position: relative;
   color: white;
   font-family: 'Quicksand';
   font-weight: bolder;
   border: 1px solid black;
+  padding-top: 0px;
+  padding-bottom: 4px;
 }
 
 button {
