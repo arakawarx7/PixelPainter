@@ -8,8 +8,9 @@ html {
   font-family: 'Quicksand', sans-serif;
 }
 
-#ppCanvas {
-  box-shadow: 2px 2px 5px black;
+.colorSwatch {
+  border: 1px solid black;
+  display: inline-block;
 }
 
 .colorSwatch:hover {
@@ -26,11 +27,49 @@ h1 {
   text-shadow: -1px -1px 1px steelblue, 1px 1px 1px white;
 }
 
+.pixCell {
+  border: 1px dotted black;
+  position: absolute;
+  background-color: white;
+}
+
 .pixCell:hover {
   border: 1px solid black !important;
 }
 
+#ppCanvas {
+  position: relative;
+  border: 2px solid steelblue;
+  margin: 4px;
+  box-shadow: -1px -1px 2px steelblue, 1px 1px 2px white;
+}
+
+#colorDiv {
+  position: fixed;
+  background-color: #A8BCD7;
+  box-shadow: -1px -1px 2px steelblue, 1px 1px 2px white;
+}
+
+#controlsDiv {
+  position: fixed;
+  background-color: #A8BCD7;
+  box-shadow: -1px -1px 2px steelblue, 1px 1px 2px white;
+}
+
+#currentColorDiv {
+  display: block;
+  text-align: center;
+  position: relative;
+  color: white;
+  font-family: 'Quicksand';
+  font-weight: bolder;
+  border: 1px solid black;
+}
+
 button {
   font-family: 'Quicksand';
+  font-size: 12px;
+  font-weight: bold;
+  color: steelblue;
   background-color: lightsteelblue;
 }
