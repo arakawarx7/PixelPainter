@@ -54,6 +54,7 @@ function pixelPainter(width, height) {
 
 
 
+
   var clearButton = document.createElement('button');
   module.clearCanvas = function(){
     var matches = document.body.querySelectorAll('.pixCell');
@@ -94,7 +95,12 @@ function pixelPainter(width, height) {
       var data = JSON.parse(localStorage.getItem('pixStorage'));
       console.log("getdata",data);
       console.log(data);
-      };
+      var matches = document.body.querySelectorAll('.pixCell');
+      for(var i = 0; i < matches.length; i++){
+        matches[i].style.backgroundColor = data[i];
+      }
+
+    };
     fetchButton.addEventListener('click',module.getData);
     fetchButton.innerHTML = 'fetch';
     controlsDiv.appendChild(fetchButton);
