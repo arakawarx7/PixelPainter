@@ -12,6 +12,9 @@ function pixelPainter(width, height) {
   var colorDiv = document.createElement('div');
   var controlsDiv = document.createElement('div');
   var swatchSize = 16;
+  var savedDataDiv = document.createElement('div');
+  var saveButton = document.createElement('button');
+  var fetchButton = document.createElement('button');
   var colors = {
     red: 'red',
     orange: 'orange',
@@ -49,7 +52,16 @@ function pixelPainter(width, height) {
   controlsDiv.style.border = "2px solid black";
   controlsDiv.style.left = (parseInt(ppCanvas.style.width) + swatchSize + pixelSize) + 'px';
 
+
+
   var clearButton = document.createElement('button');
+  module.clearCanvas = function(){
+    var matches = document.body.querySelectorAll('.pixCell');
+    for(var i = 0; i < matches.length; i++){
+      matches[i].style.backgroundColor = 'white';
+    }
+  };
+  clearButton.addEventListener('click',module.clearCanvas);
   clearButton.innerHTML = 'clear';
   controlsDiv.appendChild(clearButton);
 
@@ -61,6 +73,35 @@ function pixelPainter(width, height) {
       e.target.style.backgroundColor = 'white';
     }
   };
+
+  module.saveData = function(){
+    var dataArray =[];
+    pixelData = document.body.querySelectorAll('.pixCell');
+    for(var i = 0; i < pixelData.length; i++){
+      dataArray.push(pixelData[i].style.backgroundColor);
+      }
+    localStorage.setItem('pixStorage',JSON.stringify(dataArray)); // this saves data to local storage
+    //to get back this data.   call--> JSON.parse(localStorage.getItem('pixStorage')) <--
+      console.log(dataArray);
+  }
+
+
+    saveButton.addEventListener('click',module.saveData);
+    saveButton.innerHTML = 'save';
+    controlsDiv.appendChild(saveButton);
+
+    module.getData = function(){
+      var data = JSON.parse(localStorage.getItem('pixStorage'));
+      console.log("getdata",data);
+      console.log(data);
+      };
+    fetchButton.addEventListener('click',module.getData);
+    fetchButton.innerHTML = 'fetch';
+    controlsDiv.appendChild(fetchButton);
+
+    // var dataBox = document.createElement('INPUT');
+    // dataBox.innerHTML = dataBox;
+    // ppDiv.appendChild(dataBox);
 
   module.changeColorContinuous = function(e) {
     if(mouseIsDown) {
