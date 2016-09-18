@@ -1,0 +1,36 @@
+@import 'https://fonts.googleapis.com/css?family=Quicksand';
+
+html {
+  background-color: lightsteelblue;
+}
+
+@font-face {
+  font-family: 'Quicksand', sans-serif;
+}
+
+#ppCanvas {
+  box-shadow: 2px 2px 5px black;
+}
+
+.colorSwatch:hover {
+  border: 1px solid white !important;
+}
+
+h1 {
+  font-size: 72px;
+  font-family: 'Quicksand';
+  color: #A8BCD7;
+  letter-spacing: .1em;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  text-shadow: -1px -1px 1px steelblue, 1px 1px 1px white;
+}
+
+.pixCell:hover {
+  border: 1px solid black !important;
+}
+
+button {
+  font-family: 'Quicksand';
+  background-color: lightsteelblue;
+}
