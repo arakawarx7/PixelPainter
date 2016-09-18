@@ -91,4 +91,7 @@ button {
   font-weight: bold;
   color: steelblue;
   background-color: lightsteelblue;
+  border: 2px outset #6692C4;
+  border-radius: 4px;
+  margin-right: 4px;
 }

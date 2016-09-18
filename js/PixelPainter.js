@@ -4,6 +4,10 @@
 * @param {Number} height --> Height of the canvas, in number of cells
 */
 
+window.isTouchScreenDevice = function() {
+  return (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
+};
+
 function pixelPainter(width, height) {
   var module = {};
   var ppDiv = document.getElementById('pixelPainter');
@@ -16,6 +20,15 @@ function pixelPainter(width, height) {
   var clearButton = document.createElement('button');
   var saveButton = document.createElement('button');
   var fetchButton = document.createElement('button');
+  var pencilButton = document.createElement('button');
+  var currentColor = 'black';
+  var currentTool = 'pencil';
+  var mouseIsDown = false;
+  var isTouch = window.isTouchScreenDevice();
+
+  var tools = {
+    pencil: 'pencil'
+  };
   var colors = {
     red: 'red',
     orange: 'orange',
@@ -34,8 +47,6 @@ function pixelPainter(width, height) {
     brown: 'saddlebrown',
     tan: 'peru'
   };
-  var currentColor = 'black';
-  var mouseIsDown = false;
 
   module.clearCanvas = function(){
     var matches = document.body.querySelectorAll('.pixCell');
@@ -95,12 +106,17 @@ function pixelPainter(width, height) {
         pixCell.style.height = pixelSize;
         pixCell.style.left = (x * pixelSize) + 'px';
         pixCell.style.top = (y * pixelSize) + 'px';
-        pixCell.addEventListener('mousedown', module.changeColor);
-        pixCell.addEventListener('mouseover', module.changeColorContinuous);
-        pixCell.addEventListener('dragover', function(evt) {
-          mouseIsDown = true;
-          module.changeColorContinuous(evt);
-        });
+        if(isTouch) {
+          pixCell.addEventListener('touchstart', module.changeColor);
+          pixCell.addEventListener('touchmove', module.changeColorContinuous);
+        } else {
+          pixCell.addEventListener('mousedown', module.changeColor);
+          pixCell.addEventListener('mouseover', module.changeColorContinuous);
+          pixCell.addEventListener('dragover', function(evt) {
+            mouseIsDown = true;
+            module.changeColorContinuous(evt);
+          });
+        }
         ppCanvas.appendChild(pixCell);
       }
     }
@@ -119,46 +135,59 @@ function pixelPainter(width, height) {
     }
   };
 
-  ppCanvas.style.width = (width * pixelSize) + 2;
-  ppCanvas.style.height = (height * pixelSize) + 2;
-  ppCanvas.id = 'ppCanvas';
+  module.initialize = function() {
 
-  colorDiv.style.width = (8 * swatchSize) + (swatchSize) + 'px';
-  colorDiv.id = 'colorDiv';
-  colorDiv.style.left = (parseInt(ppCanvas.style.width) + swatchSize + pixelSize) + 'px';
+    ppCanvas.style.width = (width * pixelSize) + 2;
+    ppCanvas.style.height = (height * pixelSize) + 2;
+    ppCanvas.id = 'ppCanvas';
 
-  controlsDiv.style.width = (8 * swatchSize) + (swatchSize) + 'px';
-  controlsDiv.id = 'controlsDiv';
-  controlsDiv.style.left = (parseInt(ppCanvas.style.width) + swatchSize + pixelSize) + 'px';
+    colorDiv.style.width = (8 * swatchSize) + (swatchSize) + 'px';
+    colorDiv.id = 'colorDiv';
+    colorDiv.style.left = (parseInt(ppCanvas.style.width) + swatchSize + pixelSize) + 'px';
 
-  currentColorDisplay.id = 'currentColorDiv';
-  currentColorDisplay.innerHTML = 'color';
-  currentColorDisplay.style.backgroundColor = currentColor;
-  currentColorDisplay.style.height = swatchSize + 'px';
+    controlsDiv.style.width = (8 * swatchSize) + (swatchSize) + 'px';
+    controlsDiv.id = 'controlsDiv';
+    controlsDiv.style.left = (parseInt(ppCanvas.style.width) + swatchSize + pixelSize) + 'px';
 
-  clearButton.addEventListener('click',module.clearCanvas);
-  clearButton.innerHTML = '💣';
-  controlsDiv.appendChild(clearButton);
+    currentColorDisplay.id = 'currentColorDiv';
+    currentColorDisplay.innerHTML = 'color';
+    currentColorDisplay.style.backgroundColor = currentColor;
+    currentColorDisplay.style.height = swatchSize + 'px';
 
-  saveButton.addEventListener('click',module.saveData);
-  saveButton.innerHTML = '💾';
-  controlsDiv.appendChild(saveButton);
+    clearButton.addEventListener('click', module.clearCanvas);
+    clearButton.innerHTML = '🗙';
+    controlsDiv.appendChild(clearButton);
 
-  fetchButton.addEventListener('click',module.getData);
-  fetchButton.innerHTML = '🗁';
-  controlsDiv.appendChild(fetchButton);
+    saveButton.addEventListener('click', module.saveData);
+    saveButton.innerHTML = '💾';
+    controlsDiv.appendChild(saveButton);
 
-  //turn off continuous drawing when mouse is released
-  document.addEventListener('mouseup', function() {mouseIsDown = false;});
-  //disable drag
-  document.addEventListener('drag', function(){mouseIsDown = false;});
+    fetchButton.addEventListener('click', module.getData);
+    fetchButton.innerHTML = '🗁';
+    controlsDiv.appendChild(fetchButton);
 
-  module.createCanvas();
-  module.createColorSwatch();
-  colorDiv.appendChild(currentColorDisplay);
-  colorDiv.appendChild(controlsDiv);
-  ppDiv.appendChild(colorDiv);
-  ppDiv.appendChild(ppCanvas);
+    pencilButton.addEventListener('click', function(){currentTool = tools.pencil;});
+    pencilButton.innerHTML = '🖉';
+    controlsDiv.appendChild(pencilButton);
+
+    //turn off continuous drawing when mouse is released
+    document.addEventListener('mouseup', function() {mouseIsDown = false;});
+    if(isTouch) {
+      //same for touch
+      document.addEventListener('touchend', function() {mouseIsDown = false;});
+    }
+    //disable drag
+    document.addEventListener('drag', function(){mouseIsDown = false;});
+
+    module.createCanvas();
+    module.createColorSwatch();
+    colorDiv.appendChild(currentColorDisplay);
+    colorDiv.appendChild(controlsDiv);
+    ppDiv.appendChild(colorDiv);
+    ppDiv.appendChild(ppCanvas);
+  };
+
+  module.initialize();
 
   return module;
 }
