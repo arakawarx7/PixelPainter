@@ -1,0 +1,105 @@
+@import 'https://fonts.googleapis.com/css?family=Quicksand';
+
+html {
+  background-color: steelblue;
+}
+
+@font-face {
+  font-family: 'Quicksand', sans-serif;
+}
+
+body h1, body #pixelPainter {
+  background-color: lightsteelblue;
+  border-radius: 8px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 20%;
+  margin-right: 20%;
+  box-shadow: 1px 1px 2px darkslateblue, -1px -1px 2px white
+}
+
+#pixelPainter {
+  padding: 4px;
+}
+
+.colorSwatch {
+  border: 1px solid black;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.colorSwatch:hover {
+  border: 1px solid white !important;
+}
+
+h1 {
+  font-size: 72px;
+  font-family: 'Quicksand';
+  color: #A8BCD7;
+  letter-spacing: .1em;
+  text-align: center;
+  text-shadow: -1px -1px 1px steelblue, 1px 1px 1px white;
+}
+
+.pixCell {
+  border: 1px dotted black;
+  position: absolute;
+  background-color: white;
+}
+
+.pixCell:hover {
+  border: 1px solid black !important;
+}
+
+#ppCanvas {
+  position: relative;
+  border: 2px solid steelblue;
+  border-radius: 4px;
+  margin: 4px;
+  box-shadow: -1px -1px 2px steelblue, 1px 1px 2px white;
+}
+
+#colorDiv {
+  position: fixed;
+  background-color: #A8BCD7;
+  box-shadow: -1px -1px 2px steelblue, 1px 1px 2px white;
+  margin-top: 4px;
+  margin-left: 20%;
+  margin-right: 20%;
+  border-radius: 4px;
+}
+
+#controlsDiv {
+  position: fixed;
+  background-color: #A8BCD7;
+  box-shadow: -1px -1px 2px steelblue, 1px 1px 2px white;
+  margin-left: 20%;
+  margin-right: 20%;
+  border-radius: 4px;
+}
+
+#currentColorDiv {
+  display: block;
+  text-align: center;
+  text-shadow: 0 0 2px black, 0 0 1px black;
+  position: relative;
+  color: white;
+  font-size: 15px;
+  font-family: 'Quicksand';
+  font-weight: bolder;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding-top: 0px;
+  padding-bottom: 4px;
+}
+
+button {
+  font-family: 'Quicksand';
+  font-size: 12px;
+  font-weight: bold;
+  color: steelblue;
+  background-color: lightsteelblue;
+  border: 2px outset #6692C4;
+  border-radius: 4px;
+  margin-right: 4px;
+}
